@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Roster · {{ course_name }}{% endblock %}
+{% block body %}
+<p class="eyebrow">Instructor</p>
+<h1>Roster</h1>
+<form class="card" method="post" enctype="multipart/form-data">
+  <label class="q" for="roster">Upload a roster CSV (columns: username, password, name, is_admin)</label>
+  <input type="file" id="roster" name="roster" accept=".csv" required>
+  <div class="toolbar"><button type="submit">Load roster</button></div>
+</form>
+<table class="card" style="display:table">
+  <tr><th>Username</th><th>Name</th><th>Role</th></tr>
+  {% for s in students %}<tr><td>{{ s.username }}</td><td>{{ s.name }}</td><td>{{ 'instructor' if s.is_admin else 'student' }}</td></tr>{% endfor %}
+</table>
+{% endblock %}

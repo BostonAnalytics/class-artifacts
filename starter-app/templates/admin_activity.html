@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ act.title }} · class view{% endblock %}
+{% block body %}
+<p class="eyebrow">Class view · Module {{ act.module }} · project this to debrief</p>
+<h1>{{ act.title }}</h1>
+<div class="toolbar">
+  <a class="btn secondary" href="{{ url_for('admin_activity', slug=act.slug) }}">Refresh</a>
+  <a class="btn secondary" href="{{ url_for('admin_export', slug=act.slug) }}">Download CSV</a>
+  <form method="post" action="{{ url_for('admin_toggle', slug=act.slug) }}"><button class="secondary" type="submit">{{ 'Close activity' if open else 'Open activity' }}</button></form>
+</div>
+
+<div class="tiles" style="margin-top:16px">
+  <div class="tile"><div class="v">{{ subs|length }}</div><div class="muted">artifacts</div></div>
+</div>
+
+{% for f, counts, top in charts %}
+<div class="card">
+  <h2>{{ f.label }}</h2>
+  {% for o, c in counts %}
+  <div class="bar"><span>{{ o }}</span><span class="trk"><span class="fill" style="display:block;width:{{ (100 * c / top) if top else 0 }}%"></span></span><span>{{ c }}</span></div>
+  {% endfor %}
+</div>
+{% endfor %}
+
+<div class="card">
+  <h2>Artifacts</h2>
+  {% if not subs %}<p class="muted">None yet.</p>{% else %}
+  <table>
+    <tr><th>Student</th>{% for f in act.fields %}<th>{{ f.name }}</th>{% endfor %}</tr>
+    {% for r, d in subs %}
+    <tr><td>{{ r.name or r.username }}</td>{% for f in act.fields %}<td>{{ as_text(d.get(f.name)) }}</td>{% endfor %}</tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+</div>
+{% endblock %}

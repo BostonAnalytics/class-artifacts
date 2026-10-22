@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block body %}
+<p class="eyebrow">Your activities</p>
+<h1>One activity per module</h1>
+<p class="muted">Each activity gives you an artifact. Attach it to that module's discussion post. Only you can see your work.</p>
+<div class="list">
+{% for a, done, is_open in items %}
+  <a class="item" href="{{ url_for('activity', slug=a.slug) }}">
+    <span><span class="muted">Module {{ a.module }}</span><br><strong>{{ a.title }}</strong></span>
+    <span>
+      {% if done %}<span class="pill ok">artifact ready</span>{% elif not is_open %}<span class="pill closed">closed</span>{% else %}<span class="pill">not started</span>{% endif %}
+    </span>
+  </a>
+{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Sign in · {{ course_name }}{% endblock %}
+{% block body %}
+<h1>Sign in</h1>
+<form class="card" method="post" autocomplete="off">
+  <label class="q" for="username">Username</label>
+  <input type="text" id="username" name="username" required autofocus>
+  <label class="q" for="password">Password</label>
+  <input type="password" id="password" name="password" required>
+  <div class="toolbar"><button type="submit">Sign in</button></div>
+</form>
+<p class="muted">Use the username and password your instructor gave you.</p>
+{% endblock %}

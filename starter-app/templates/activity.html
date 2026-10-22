@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}{{ act.title }} · {{ course_name }}{% endblock %}
+{% block body %}
+<p class="eyebrow no-print">Module {{ act.module }} · feeds {{ act.discussion }}</p>
+<h1 class="no-print">{{ act.title }}</h1>
+
+<div class="card accent no-print">
+  <p style="margin:0"><strong>Objective:</strong> {{ act.objective }}</p>
+  <p style="margin:8px 0 0">{{ act.intro }}</p>
+</div>
+
+{% if variant %}
+<div class="card no-print">
+  <p class="eyebrow">Your input · version {{ variant[0] }}</p>
+  <p style="margin:6px 0 0">{{ variant[1] }}</p>
+</div>
+{% endif %}
+
+{% if open %}
+<form class="card" method="post" autocomplete="off">
+  {% for f in act.fields %}
+    <label class="q" for="{{ f.name }}">{{ f.label }}</label>
+    {% if f.type == "short" %}
+      <input type="text" id="{{ f.name }}" name="{{ f.name }}" maxlength="300" value="{{ data.get(f.name, '') }}">
+    {% elif f.type == "text" %}
+      <textarea id="{{ f.name }}" name="{{ f.name }}" maxlength="2000">{{ data.get(f.name, '') }}</textarea>
+    {% elif f.type == "choice" %}
+      <div class="opts">{% for o in f.options %}<label><input type="radio" name="{{ f.name }}" value="{{ o }}" {% if data.get(f.name) == o %}checked{% endif %}> <span>{{ o }}</span></label>{% endfor %}</div>
+    {% elif f.type == "checks" %}
+      <div class="opts">{% for o in f.options %}<label><input type="checkbox" name="{{ f.name }}" value="{{ o }}" {% if o in data.get(f.name, []) %}checked{% endif %}> <span>{{ o }}</span></label>{% endfor %}</div>
+    {% endif %}
+  {% endfor %}
+  <div class="toolbar"><button type="submit">{{ 'Update my artifact' if row else 'Make my artifact' }}</button></div>
+</form>
+{% else %}
+<div class="card no-print"><span class="pill closed">closed</span> This activity is closed. Your artifact below is still available.</div>
+{% endif %}
+
+{% if row %}
+<div class="card artifact" id="artifact">
+  <p class="eyebrow">Artifact for {{ act.discussion }}{% if saved %} · <span style="color:var(--ok)">saved</span>{% endif %}</p>
+  <h2>Module {{ act.module }}: {{ act.title }}</h2>
+  <p class="muted" style="margin:0">{{ user.name or user.username }} · {{ row.updated_at[:10] }}</p>
+  <dl>
+    {% if variant %}<dt>My input (version {{ variant[0] }})</dt><dd>{{ variant[1] }}</dd>{% endif %}
+    {% for f in act.fields %}<dt>{{ f.label }}</dt><dd>{{ as_text(data.get(f.name)) or '-' }}</dd>{% endfor %}
+  </dl>
+  <div class="toolbar no-print">
+    <a class="btn secondary" href="{{ url_for('artifact_txt', slug=act.slug) }}">Download as text</a>
+    <button class="secondary" type="button" onclick="window.print()">Print or save as PDF</button>
+  </div>
+  <p class="muted no-print" style="margin:12px 0 0">Attach this card (a screenshot, the PDF or the text) to your {{ act.discussion }} post and use it as evidence.</p>
+</div>
+{% endif %}
+{% endblock %}

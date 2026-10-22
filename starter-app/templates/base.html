@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ course_name }}{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<main>
+  <div class="top">
+    <span><strong>{{ course_name }}</strong>{% if user %} · {{ user.name or user.username }}{% endif %}</span>
+    <span>
+      {% if user %}<a href="{{ url_for('home') }}">activities</a>{% if user.is_admin %} · <a href="{{ url_for('admin_home') }}">instructor</a>{% endif %} · <a href="{{ url_for('logout') }}">sign out</a>{% endif %}
+    </span>
+  </div>
+  {% with messages = get_flashed_messages() %}{% for m in messages %}<div class="flash">{{ m }}</div>{% endfor %}{% endwith %}
+  {% block body %}{% endblock %}
+</main>
+</body>
+</html>

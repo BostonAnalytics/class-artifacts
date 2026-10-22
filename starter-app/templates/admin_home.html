@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Instructor · {{ course_name }}{% endblock %}
+{% block body %}
+<p class="eyebrow">Instructor</p>
+<h1>Activities</h1>
+<p class="muted">{{ n_students }} students on the roster · <a href="{{ url_for('admin_roster') }}">roster</a></p>
+<table class="card" style="display:table">
+  <tr><th>Module</th><th>Activity</th><th>Artifacts</th><th>Status</th><th></th></tr>
+  {% for a, n, is_open in items %}
+  <tr>
+    <td>{{ a.module }}</td>
+    <td><a href="{{ url_for('admin_activity', slug=a.slug) }}">{{ a.title }}</a></td>
+    <td>{{ n }} of {{ n_students }}</td>
+    <td>{% if is_open %}<span class="pill ok">open</span>{% else %}<span class="pill closed">closed</span>{% endif %}</td>
+    <td><form method="post" action="{{ url_for('admin_toggle', slug=a.slug) }}"><button class="secondary" type="submit">{{ 'Close' if is_open else 'Open' }}</button></form></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
