@@ -6,6 +6,8 @@ A template for instructors who want to add one in-lecture activity per module th
 
 Live example: [met-ad-599.github.io](https://met-ad-599.github.io/) (MET AD 599, Python and SQL for Business Analytics, Fall 2026).
 
+Slides: [deck/class-artifacts-deck.pdf](deck/class-artifacts-deck.pdf) (13 slides, the framework and the AD 599 walkthrough).
+
 ## What you add, and what you already have
 
 | Piece | Already in your course? | What changes |
@@ -43,6 +45,7 @@ Start with one module. You do not need all six to begin.
 
 | Path | What it is |
 |---|---|
+| `deck/` | The slide deck as a PDF: the framework, why it is easy to integrate, and the AD 599 /w02/ walkthrough |
 | `docs/` | The framework, course plans, activity design, discussion prompts, low-tech techniques, the web app |
 | `templates/` | Fill-in worksheets: activity, discussion prompt, 14-week plan, 6-week plan |
 | `examples/ad599/` | A complete worked example: six modules, six artifacts, and how one activity feeds Discussion 2 |
